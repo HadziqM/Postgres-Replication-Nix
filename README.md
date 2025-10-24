@@ -175,6 +175,9 @@ postgres."postgres-master" = {
 
 * **`CREATE ROLE`**
   Creates a superuser with replication privileges before database initialization.
+  
+* **`Hba Conf`**
+  Need to have correct Hba conf, but luckily default configuration already allow replication in local environtment
 
 ---
 
@@ -223,6 +226,9 @@ in
 
 * **`postgresql.auto.conf`**
   Adds replication connection details dynamically.
+
+* **`postgresql.conf`**
+  While its not completely unnecessary to backup and use the original config, this is required for testing locally since without it rqplica will run on same address and port as master
 
 * **Dependency management**
   The setup runs only after the initialization process completes, ensuring that the replica’s data directory is clean and synchronized.

@@ -1,12 +1,10 @@
 {
-
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
     systems.url = "github:nix-systems/default";
     process-compose-flake.url = "github:Platonic-Systems/process-compose-flake";
     services-flake.url = "github:juspay/services-flake";
-
   };
   outputs =
     inputs:
@@ -22,16 +20,6 @@
           ...
         }:
         let
-          # pname = "chat-server";
-
-          # erupe = pkgs.buildGoModule {
-          #   inherit pname;
-          #   version = "0.1.0";
-          #   doCheck = false;
-          #   src = ./.;
-          #   vendorHash = lib.fakeHash;
-          # };
-
           cfg-rep = lib.importTOML ./config.toml;
           master = cfg-rep.master;
 
@@ -123,7 +111,7 @@
 
           slaveCompose =
             idx:
-            baseProcessCompose false
+            baseProcessCompose true
             // {
               services = posgresSlave idx;
               settings.processes = standbySignal idx // {
@@ -135,7 +123,7 @@
               };
             };
 
-          defaultCompose = baseProcessCompose false // {
+          defaultCompose = baseProcessCompose true // {
             services = postgresMaster;
           };
 
@@ -150,8 +138,8 @@
 
           devShells.default = pkgs.mkShell {
             nativeBuildInputs = with pkgs; [
-              gopls
-              go
+              # gopls
+              # go
             ];
           };
         };

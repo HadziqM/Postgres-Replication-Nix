@@ -18,13 +18,6 @@ We’ll build the following setup:
 
 ---
 
-
-That’s a great expansion — it’s clear, grounded in actual replication logs, and keeps a practical developer tone.
-Here’s a slightly refined version of your draft that keeps your voice but improves readability, grammar, and technical flow without changing your meaning or structure.
-You can copy and paste this directly into your article section.
-
----
-
 ## Postgres Master
 
 The **Postgres master** acts as the primary data source for all replicas. Its job is to stream Write-Ahead Logs (WAL) to connected standby databases so they can continuously replay changes in near real time.

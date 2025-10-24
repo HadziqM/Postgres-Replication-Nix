@@ -1,0 +1,15 @@
+[master]
+host = "127.0.0.1"
+port = 6969
+user = "master"
+password = "lord"
+database = "chat"
+
+[[replica]]
+host = "127.0.0.1"
+port = 6968
+
+
+[[replica]]
+host = "127.0.0.1"
+port = 6967

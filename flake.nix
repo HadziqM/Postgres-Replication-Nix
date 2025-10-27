@@ -141,6 +141,7 @@
               postgresql
               gopls
               go
+              pgcat
             ];
           };
         };

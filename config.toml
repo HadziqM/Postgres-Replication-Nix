@@ -13,3 +13,8 @@ port = 6968
 [[replica]]
 host = "127.0.0.1"
 port = 6967
+
+
+[pgcat]
+host = "127.0.0.1"
+port = 6979

@@ -1,0 +1,34 @@
+[general]
+log_level = "info"
+host = "127.0.0.1"
+port = 6979
+healthcheck_interval = 10000  # 10 seconds
+idle_timeout = 30000
+admin_username = "master"
+admin_password = "lord"
+
+[pools.chat]
+pool_mode = "session"          
+default_role = "primary"           
+query_parser_enabled = true
+primary_reads_enabled = true
+query_parser_read_write_splitting = true
+load_balancing_mode = "random"     
+sharding_function = "pg_bigint_hash"
+
+# Authentication / user connection configuration
+[pools.chat.users.0]
+username = "master"
+password = "lord"
+pool_size = 10
+min_pool_size = 3
+server_lifetime = 60000
+statement_timeout = 0
+
+[pools.chat.shards.0]
+database = "chat"
+
+servers = [
+    [ "127.0.0.1", 6969, "primary" ],
+    [ "127.0.0.1", 6968, "replica" ]
+]

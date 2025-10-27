@@ -132,14 +132,15 @@
           process-compose = {
             default = defaultCompose;
             master = defaultCompose;
-            slave-1 = slaveCompose 1;
-            slave-2 = slaveCompose 2;
+            slave-1 = slaveCompose 0;
+            slave-2 = slaveCompose 1;
           };
 
           devShells.default = pkgs.mkShell {
             nativeBuildInputs = with pkgs; [
-              # gopls
-              # go
+              postgresql
+              gopls
+              go
             ];
           };
         };

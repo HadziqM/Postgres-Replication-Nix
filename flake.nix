@@ -23,6 +23,14 @@
           cfg-rep = lib.importTOML ./config.toml;
           master = cfg-rep.master;
 
+          go-server = pkgs.buildGoModule {
+            pname = "db-replication";
+            version = "0.1.0";
+            doCheck = false;
+            src = ./.;
+            vendorHash = "sha256-Z9YUqkutXv8R+G2XsO6t9v/om1lYPLOO0w5uTFphw1k=";
+          };
+
           postgresMaster = {
             postgres."postgres-master" = {
               enable = true;
@@ -134,6 +142,31 @@
             master = defaultCompose;
             slave-1 = slaveCompose 0;
             slave-2 = slaveCompose 1;
+            server-test = baseProcessCompose true // {
+              services = {
+                postgres = postgresMaster.postgres // (posgresSlave 0).postgres;
+              };
+              settings.processes = standbySignal 0 // {
+                "pgcat" = {
+                  command = ''
+                    ${pkgs.pgcat}/bin/pgcat
+                  '';
+                  depends_on = {
+                    "postgres-slave-0".condition = "process_healthy";
+                  };
+                };
+                "go-server" = {
+                  command = ''
+                    ${go-server}/bin/db-replication
+                  '';
+                  depends_on = {
+                    "pgcat".condition = "process_started";
+                  };
+                };
+                "postgres-slave-0".depends_on."signal-0".condition = "process_completed_successfully";
+                "postgres-slave-0-init".depends_on."postgres-master".condition = "process_healthy";
+              };
+            };
           };
 
           devShells.default = pkgs.mkShell {
